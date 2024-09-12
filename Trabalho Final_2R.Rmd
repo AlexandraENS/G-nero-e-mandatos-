@@ -9,7 +9,9 @@ output:
 subtitle: uma análise de como o gênero afeta o tempo dos mandatos nas regiões brasileiras
 
 ---
-
+```{r echo=FALSE}
+#nesse primeiro código, justificamos o texto
+```
 <style>
   p {
     text-align: justify;
@@ -31,6 +33,7 @@ A representatividade tem sido levantado como essencial para que mais mulheres al
 O tema aqui abordado é o gênero e sua relação com cargos de liderança na organização pública burocrática. Vários são os estudos que indicam que mulheres são minorias nessas posições, apesar de serem o maior grupo a comporem as áreas de cuidado. Mas quando são escolhidas para ocuparem a cadeira elas conseguem se manter no cargo? Nosso objetivo aqui é apresentar se existe relação entre ser mulher e se manter nessa posição de Secretária Estadual de Saúde.
 
 ```{r echo=FALSE}
+#buscando imagens diretamente de link disponível na internet
 knitr::include_graphics("https://s2-valor-investe.glbimg.com/wlX92am1H2S9XEfPPIC1SYfhsZk=/0x0:2121x1414/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_f035dd6fd91c438fa04ab718d608bbaa/internal_photos/bs/2019/4/o/6rUFPjRvGVqixMJtJOAQ/genero.jpg")
 ```
 
@@ -51,6 +54,7 @@ Sobre o cargo, cabe novamente frisar que está é uma função comissionada, ou 
 Diante do que foi aqui exposto, neste artigo, pretendemos mapear durante os anos de 2006 a 2016, a duração de mandatos de mulheres que ocuparam os cargos de burocracia de alto escalão em nível subnacional na saúde, ou seja, quanto tempo durou o mandato de mulheres escolhidas para ocuparem a posição de Secretárias de Saúde Estaduais durante esse período de 10 anos no Brasil em relação aos homens na mesma função. Para tal, apontaremos a seguir a metodologia utilizada, os resultados encontrados e a discussão.
 
 ```{r echo=FALSE}
+#buscando imagens diretamente de link disponível na internet
 knitr::include_graphics("https://img.freepik.com/fotos-gratis/mulher-de-tiro-medio-trabalhando-como-economista_52683-107660.jpg")
 ```
 
@@ -80,7 +84,7 @@ Posto isso, a seguir apresentaremos os resultados obtidos.
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
-
+#instalando pacotes necessários para a atividade
 install.packages("readxl")
 install.packages("dplyr")
 install.packages("lubridate")
@@ -92,6 +96,7 @@ install.packages("rmarkdown")
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+#chamando os pacotes
 library(readxl)
 library(dplyr)
 library(lubridate)
@@ -103,7 +108,7 @@ library(stats)
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
-
+#indicando com qual base iremos trabalhar. Neste caso, é uma base presente em pastas do computador
 file.choose()
 
 Secretarios_de_saude_CO <- read_excel("C:/Users/Aleno/OneDrive/Área de Trabalho/_Secretarios de saúde 2.xlsx")
@@ -117,6 +122,8 @@ caminho <- "C:/Users/Aleno/OneDrive/Area de Trabalho/secretarios_saude_2.xlsx"
 
 
 ```{r include=FALSE}
+#Essa fase é de inclusão e cáculo de duração de mandato como uma coluna no nosso dataframe, e para alguns casos foi preciso 
+#afirmar que dados referente a mandatos eram númericos
 Secretarios_de_saude_CO %>% 
 select(Mandato_Inicio, Mandato_Final, Gênero) %>% 
 mutate(duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1)
@@ -227,6 +234,7 @@ O primeiro resultado aqui apresentado será da análise de duração de mandatos
 ### Centro-Oeste
 
 ```{r echo=FALSE}
+#Nesses códigos são geradas tabelas com as variáveis de duração de mandato e gênero por região.
 ggplot (Secretarios_de_saude_CO, aes(x = duracao_mandato, fill = Gênero)) +
    geom_histogram(binwidth = 1, position = "dodge", color = "black") +
    scale_x_continuous(breaks = 1:9)+
@@ -315,6 +323,7 @@ Aqui, os resultados demonstram a diferença entre a duração de mandato entre h
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+#aqui criamos uma função chamada prepare_data para adicionar mais uma coluna com nome da região e adicionamos a variável
 prepare_data <- function(df, nome_regiao) {df %>% 
 mutate( Mandato_Inicio = 
 as.numeric(Mandato_Inicio), Mandato_Final = as.numeric(Mandato_Final), 
@@ -324,6 +333,7 @@ select(Gênero, duracao_mandato, PARTIDO) %>% mutate(nome_regiao)}
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+#combinamos os dados referentes a todas as regiões em uma única página do dataframe
 secretarios_combinados <- bind_rows(
   prepare_data(Secretarios_de_saude_CO, "Centro-Oeste"),
   prepare_data(Secretarios_de_saude_Norte, "Norte"),
@@ -333,11 +343,12 @@ secretarios_combinados <- bind_rows(
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
-
+#omitimos dados faltantes
 secretarios_combinados <- na.omit(secretarios_combinados)
 ```
 
 ```{r include=FALSE}
+#e visualizamos o dataframe
 print(secretarios_combinados)
 ```
 
@@ -348,6 +359,7 @@ print(secretarios_combinados)
 Escolhemos aqui a variável de controle de ideologia dos governadores, isso porque já existe na teoria discussões de que exista relação entre a indicação de secretarios de saúde e a ideologia partidária dos governadores. 
 
 ```{r include=FALSE}
+#aqui definimos as ideologias dos partidos e também criamos uma coluna para ideologia e visualizamos o dataframe
  secretarios_combinados <- secretarios_combinados %>%
   mutate(ideologia = case_when(
     PARTIDO %in% c("DEM", "PMDB", "PP", "PSC", "PSD", "PSDB", "SD", "PFL") ~ "Direita",
@@ -368,6 +380,7 @@ Para que exista relação então entre os fatores, é necessário que o p valor 
 Ao gerarmos a regressão, utilizamos então duas variáveis explicativas, o gênero e a duração do mandato 
 
 ```{r echo=FALSE}
+#fórmula de regressão multivariada é rodada aqui com todas as variáveis de interesse
 modelo_lm <- lm(duracao_mandato ~ Gênero + ideologia, data = secretarios_combinados)
 
 summary(modelo_lm)
@@ -379,6 +392,8 @@ Desse modo, demostramos que, diante do resultado da regressão os dados não sã
 # Resultados 
 
 ```{r echo=FALSE}
+#gráficos que demonstram se há linearidade, homocedasticidade na amostra, se a distribuição é normal, existem ou não pontos de alavancagem e se 
+#na nossa amostra existem outliers
 par(mfrow=c(2,2))
 plot(modelo_lm)
 par(mfrow=c(1,1))
