@@ -1,0 +1,425 @@
+---
+title: "Duração de mandato nas Secretarias Estaduais de Saúde"
+author: "Alexandra Emanuela Novais Silva"
+date: "2024-09-04"
+output:
+  html_document: default
+  ioslides_presentation: default
+  slidy_presentation: default
+subtitle: uma análise de como o gênero afeta o tempo dos mandatos nas regiões brasileiras
+
+---
+
+<style>
+  p {
+    text-align: justify;
+  }
+</style>
+
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+```
+
+# Resumo 
+A representatividade tem sido levantado como essencial para que mais mulheres alcancem posições de destaque na sociedade. Ao longo dos anos, movimentos feministas e discussões sobre a burocracia e a participação feminina no trabalho têm se debruçado sobre o tema. Diversas são as barreiras, tanto no ambiente corporativo quanto político e social, que dificultam a promoção da equidade de gênero. O conceito “teto de vidro” reflete essas dificuldades, como a diferença salarial entre os gêneros, mesmo com mulheres sendo maioria em universidades. No entanto, apesar dessa evidência já consolidada na teoria, na nossa análise de correlação entre gênero e duração de mandato não obteve significância estatística, apontando a necessidade de incluir outras variáveis para um teste mais robusto.
+
+
+## Gênero e cargos públicos 
+
+O tema aqui abordado é o gênero e sua relação com cargos de liderança na organização pública burocrática. Vários são os estudos que indicam que mulheres são minorias nessas posições, apesar de serem o maior grupo a comporem as áreas de cuidado. Mas quando são escolhidas para ocuparem a cadeira elas conseguem se manter no cargo? Nosso objetivo aqui é apresentar se existe relação entre ser mulher e se manter nessa posição de Secretária Estadual de Saúde.
+
+```{r echo=FALSE}
+knitr::include_graphics("https://s2-valor-investe.glbimg.com/wlX92am1H2S9XEfPPIC1SYfhsZk=/0x0:2121x1414/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_f035dd6fd91c438fa04ab718d608bbaa/internal_photos/bs/2019/4/o/6rUFPjRvGVqixMJtJOAQ/genero.jpg")
+```
+
+## Dificuldades que envolvem a sub-representação
+
+Apesar dos concursos, que em teoria priorizam conhecimentos técnicos e de títulos, a defesa, pelo menos em tese, do tratamento igualitário entre os funcionários e salários previamente estabelecidos, é notável que a presença de mulheres nesse ambiente burocrático é maior em hierarquias menores e em áreas de missão social (VAZ, 2010).
+Para Vaz (2013), os cargos de alto escalão no setor público são ainda mais difíceis de alcançar no Brasil pois, estes são cargos de indicação, ou seja, não é necessário passar por um exame ou prova, como um concurso público. Além disso, de acordo com dados da Pesquisa Nacional por Amostra de Domicílio do IBGE (2022), as mulheres despendem
+quase o dobro do tempo que os homens em afazeres domésticos, que em números equivale a cerca de 21,6 horas semanais, enquanto os homens possuem uma média de 11 horas semanais com trabalhos do lar. Conjuntamente, mulheres pretas possuem a taxa ainda mais significativa
+de realização de serviço doméstico em relação a outras mulheres e aos homens, chegando a alcançar 92,7%. Em relação aos cargos de liderança, as mulheres ocupam apenas 39,3% e recebem também cerca de 51,2% e 60,9% dos valores recebidos por homens em áreas que mais atuam, que são respectivamente saúde humana e serviços sociais.
+Ademais, elas são também as que mais possuem escolarização, de acordo com a mesma pesquisa, em 2022, a cada 10 pessoas formadas em um curso de nível superior, 6 eram mulheres, mas ainda são sub-representadas em cargos como de prefeituras, que em 2020 representavam apenas 12,1% dos eleitos, nos ministérios, em 2023, elas eram 9 entre 38
+cargos, 16% dos vereadores eleitos em 2020, e somente 2 mulheres são governadoras atualmente, no Rio Grande do Norte, Fátima Bezerra (PT) e Pernambuco, Raquel Lyra (PSDB), representando assim cerca 7,41% dos
+eleitos para essa posição.
+Desse modo, mesmo quando alcançam altas posições em ambientes corporativos públicos, mulheres enfrentam diversos desafios, como o cansaço, referente a serem as que executam mais horas de trabalhos domésticos, a ausência de equidade na remuneração, e o desafio de serem sub-representadas dentro das próprias instituições e em cargos públicos.
+Contudo, apesar de pesquisas recentes demonstrarem esse problema de
+representatividade, o reconhecimento desse fenômeno é maior entre mulheres em funções de direção do que homens, ou seja, é mais provável que o acesso a mulheres a cargos altos da burocracia seja promovido por outras mulheres (DE MORAIS; PACHECO; DO CARMO, 2019).
+Dessa forma, mesmo quando alcançam altas posições em ambientes corporativos públicos, mulheres enfrentam diversos desafios, como o cansaço, referente a serem as que executam mais trabalhos domésticos, a ausência de equidade na remuneração, e o desafio de serem sub-representadas dentro das próprias instituições.
+Sobre o cargo, cabe novamente frisar que está é uma função comissionada, ou seja, indicada pelos governadores estaduais. Cada estado possui um secretário estadual de saúde.
+Diante do que foi aqui exposto, neste artigo, pretendemos mapear durante os anos de 2006 a 2016, a duração de mandatos de mulheres que ocuparam os cargos de burocracia de alto escalão em nível subnacional na saúde, ou seja, quanto tempo durou o mandato de mulheres escolhidas para ocuparem a posição de Secretárias de Saúde Estaduais durante esse período de 10 anos no Brasil em relação aos homens na mesma função. Para tal, apontaremos a seguir a metodologia utilizada, os resultados encontrados e a discussão.
+
+```{r echo=FALSE}
+knitr::include_graphics("https://img.freepik.com/fotos-gratis/mulher-de-tiro-medio-trabalhando-como-economista_52683-107660.jpg")
+```
+
+# Introdução 
+
+Este trabalho pretende levantar dados referentes à presença de lideranças femininas subnacionais na saúde entre os anos de 2006 e 2016. Isso porque verifica-se, mesmo em pleno século XXI, a existência de sub-representação das mulheres em cargos de alto escalão, e esse fenômeno afeta o acesso de outras mulheres à burocracia estatal.
+Diante disso, buscamos então, averiguar quando houve presença de mulheres na liderança nos cargos de secretarias de saúde estaduais e quanto tempo durou esse mandato em relação aos homens. Para que esse estudo seja executado, pretendemos realizar um levantamento documental de todos os 26 estados brasileiros e do Distrito Federal, mapeando quem foram as lideranças nas secretarias da saúde e seus respectivos mandatos, mais especificamente, entre os anos de 2006 a 2016 e depois utilizar da ferramenta de regressão linear para verificar correlação entre as variáveis. Escolhemos esse recorte temporal pois, ao longo do levantamento de dados, notamos a ausência de mulheres nessa posição, o que nos levou a fazer uma análise longitudinal, para tentar, em relação a um médio período de tempo, perceber quanto representa essa disparidade de gênero na chefia desse cargo subnacional. Nas pesquisas do campo das políticas públicas voltadas para implementação, muitos se orientam para a investigação das burocracias de alto escalão e a esfera federal, como autores que olham para os Ministérios (AMORIM NETO, 2006; BORGES E COELHO, 2015; LOPEZ E PRAÇA, 2015; PEREIRA ET AL., 2015; BATISTA E LOPEZ, 2021).
+Contudo, poucas são as abordagens de nível subnacional desse plano, e quando ocorrem estão mais voltadas para as dinâmicas partidárias e a relação com o nível federal.
+Diante disso, nosso trabalho pretende também olhar para o nível subnacional, mais especificamente para o comando das secretarias estaduais de saúde. Ademais, buscamos analisar se mulheres são consideradas para cargos de chefias nas burocracias de alto escalão,
+como o cargo de secretária estadual de saúde e qual a permanência das mesmas em relação aos homens.
+De acordo com a discussão de gênero e trabalho, tem se notado nos últimos anos o crescimento da participação de mulheres no mercado de trabalho, isso devido à luta que travaram ao longo das décadas para seu acesso à educação, a direitos civis, políticos e também ao mercado de trabalho (REIS; PAIVA, 2023). Mas diante desse cenário, quantas foram as mulheres que estiveram à frente nessa conjuntura burocrática de liderança estadual em saúde ao longo dos anos? Elas têm conseguido permanecer neste cargo? Essas são as perguntas que buscaremos responder
+adiante.
+
+# Metodologia 
+ 
+Diante dessa literatura, pretendemos aqui realizar uma análise documental para evidenciar entre os anos de 2006 a 2016 a presença de mulheres na liderança do cargo de secretária estadual de saúde.
+Primeiro, cabe explicar o que nos levou a esse recorte temporal. Notamos, durante o levantamento de dados, a ausência de mulheres nessa posição, o que nos levou a escolha de realização de uma análise longitudinal, para tentar, em relação a um médio período de tempo, perceber quanto representa essa disparidade de gênero na chefia desse cargo subnacional. Assim, utilizamos para realizar esta busca a análise documental, que consiste na investigação de documentos, que envolve tanto a literatura impressa ou disponíveis em portais digitais, como também fotografias e vídeos, tornando-se um rico conjunto de informações significativas para o pesquisador. Segundo Evangelista (2012), esses materiais são fontes de informações contendo dados de tendências, proposições e avaliações, e são construídos baseados no momento histórico.
+Para tal análise, iniciamos a pesquisa com a busca nos livros do “CONASS documenta” referente a cada ano de interesse, disponibilizados no portal do CONASS, que apresentam em cada publicação as pessoas à frente das secretarias de saúde estaduais.
+Conjuntamente, coletamos informações disponibilizadas pelas próprias secretarias estaduais de saúde em seus sites institucionais, como do Pará, em alguns casos como de Pernambuco, Rio Grande do Norte, Tocantins, Minas Gerais e Goiás foram encontradas no formato de galeria de ex-secretários ou de informações como no caso de Amazonas, Acre, Rondônia. Além desses, adicionamos a base dados referentes ao partido político em que o governador estadual do respectivo período do mandato estava afiliado. Juntamos todos esses dados em um documento de excel. Após a coleta, apresentamos a duração dos mandatos nas secretarias e como gênero é apontado em cada região. Por fim, para que possamos realizar a verificação da relação entre as duas condições, utilizamos o teste estatístico de regressão linear multivariada. 
+A regressão é método estatítico para explicar a relação entre variáveis depedentes e independentes. Especificamente a regressão multivariada, trata duas ou mais variáveis para testar qual delas impacta a variável explicativa. Contudo, é importante destacar que as variáveis precisam estar alinhadas com alguma teoria para que assim seja gerada análises fidedignas e não correlações espúrias. 
+Desse modo, neste trabalho, identificamos então o Gênero como variável explicativa, isso porque, como aponta diversos autores, existe um "teto de vidro" que apesar de invísivel, age de forma significativa no reforço ou criação de barreiras para que mulheres alcancem cargos de liderança (DE MORAIS; PACHECO; CARMO, 2019). 
+Além dessa, controlamos com outra variável, a de ideologia partidária, que é também utilizada pelos autores Gomes, Lacerda e Silva (2020), em uma análise das nomeações para o cargo no estado do Rio Grande do Norte. Outros indicam, quase na mesma lógica, a escolha baseada em relações político-partidárias (Abrúcio & Samuels, 1997). Ou mesmo que o nomeado esteja ligado ou indicado por partidos aliados ao governador. 
+
+Posto isso, a seguir apresentaremos os resultados obtidos. 
+
+# Análise 
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+
+install.packages("readxl")
+install.packages("dplyr")
+install.packages("lubridate")
+install.packages("ggplot2")
+install.packages("tidyr")
+install.packages("knitr")
+install.packages("broom")
+install.packages("rmarkdown")
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+library(readxl)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(broom)
+library(ggplot2)
+library(stats)
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+
+file.choose()
+
+Secretarios_de_saude_CO <- read_excel("C:/Users/Aleno/OneDrive/Área de Trabalho/_Secretarios de saúde 2.xlsx")
+Secretarios_de_saude_Norte <- read_excel("C:/Users/Aleno/OneDrive/Área de Trabalho/_Secretarios de saúde 2.xlsx", sheet = "Norte")
+Secretarios_de_saude_Nordeste <- read_excel("C:/Users/Aleno/OneDrive/Área de Trabalho/_Secretarios de saúde 2.xlsx", sheet = "Nordeste")
+Secretarios_de_saude_Sudeste <- read_excel("C:/Users/Aleno/OneDrive/Área de Trabalho/_Secretarios de saúde 2.xlsx", sheet = "Sudeste")
+Secretarios_de_saude_Sul <- read_excel("C:/Users/Aleno/OneDrive/Área de Trabalho/_Secretarios de saúde 2.xlsx", sheet = "Sul")
+
+caminho <- "C:/Users/Aleno/OneDrive/Area de Trabalho/secretarios_saude_2.xlsx"
+```
+
+
+```{r include=FALSE}
+Secretarios_de_saude_CO %>% 
+select(Mandato_Inicio, Mandato_Final, Gênero) %>% 
+mutate(duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1)
+
+
+
+```
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Norte %>% 
+  select(Mandato_Inicio, Mandato_Final, Gênero) %>% 
+  mutate(duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1)
+
+
+
+```
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Nordeste <- Secretarios_de_saude_Nordeste %>%
+  mutate(Mandato_Inicio = as.numeric(Mandato_Inicio))
+str(Secretarios_de_saude_Nordeste)
+Secretarios_de_saude_Nordeste%>% 
+  select(Mandato_Inicio, Mandato_Final, Gênero) %>% 
+  mutate(duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1)
+
+
+
+```
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Sudeste  <- Secretarios_de_saude_Sudeste %>% 
+  mutate(Mandato_Inicio = as.numeric(Mandato_Inicio))
+str(Secretarios_de_saude_Sudeste)
+Secretarios_de_saude_Sudeste%>% 
+  select(Mandato_Inicio, Mandato_Final, Gênero) %>% 
+  mutate(duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1)
+```
+
+
+```{r include=FALSE}
+
+Secretarios_de_saude_Sul  <- Secretarios_de_saude_Sul %>% 
+  mutate(Mandato_Inicio = as.numeric(Mandato_Inicio))
+str(Secretarios_de_saude_Sul)
+Secretarios_de_saude_Sul %>% 
+  select(Mandato_Inicio, Mandato_Final, Gênero) %>% 
+  mutate(duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1)
+```
+
+
+
+```{r include=FALSE}
+ Secretarios_de_saude_CO$duracao_mandato <- 
+   (Secretarios_de_saude_CO$Mandato_Final - 
+      Secretarios_de_saude_CO$Mandato_Inicio) + 1
+
+
+```
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Norte$duracao_mandato <- 
+   (Secretarios_de_saude_Norte$Mandato_Final - 
+      Secretarios_de_saude_Norte$Mandato_Inicio) + 1
+
+
+```
+
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Nordeste$duracao_mandato <- 
+   (Secretarios_de_saude_Nordeste$Mandato_Final - 
+      Secretarios_de_saude_Nordeste$Mandato_Inicio) + 1
+
+
+```
+
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Sudeste$duracao_mandato <- 
+   (Secretarios_de_saude_Sudeste$Mandato_Final - 
+      Secretarios_de_saude_Sudeste$Mandato_Inicio) + 1
+
+
+```
+
+
+
+```{r include=FALSE}
+Secretarios_de_saude_Sul$duracao_mandato <- 
+   (Secretarios_de_saude_Sul$Mandato_Final - 
+      Secretarios_de_saude_Sul$Mandato_Inicio) + 1
+
+```
+
+
+## Duração dos mandatos por Gênero em cada região
+
+O primeiro resultado aqui apresentado será da análise de duração de mandatos em cada região brasileira, para que assim possamos comparar se realmente, existe de fato diferença entre os mandatos nas secretarias estaduais. 
+
+--- 
+
+### Centro-Oeste
+
+```{r echo=FALSE}
+ggplot (Secretarios_de_saude_CO, aes(x = duracao_mandato, fill = Gênero)) +
+   geom_histogram(binwidth = 1, position = "dodge", color = "black") +
+   scale_x_continuous(breaks = 1:9)+
+   scale_fill_manual(values = c("hotpink", "orange")) +
+   scale_y_continuous(breaks = seq(1, max(table(Secretarios_de_saude_CO$duracao_mandato)), by = 1)) +
+   labs(title = "Distribuição da Duração dos Mandatos por Gênero - Centro_Oeste",
+        x = "Duração do Mandato (anos)",
+        y = "Frequência (Secretários)") +
+   theme(title = element_text(color = "darkblue"))
+
+
+```
+
+
+---
+
+### Nordeste
+
+```{r echo=FALSE}
+ ggplot(Secretarios_de_saude_Nordeste, aes(x = duracao_mandato, fill = Gênero)) +
+   geom_histogram(binwidth = 1, position = "dodge", color = "black") +
+   scale_x_continuous(breaks = 1:10)+
+   scale_fill_manual(values = c("hotpink", "orange")) +
+   scale_y_continuous(breaks = seq(1, max(table(Secretarios_de_saude_Nordeste$duracao_mandato)), by = 1)) +
+   labs(title = "Distribuição da Duração dos Mandatos por Gênero - Nordeste",
+        x = "Duração do Mandato (anos)",
+        y = "Frequência (Secretários)")+
+   theme(title = element_text(color = "darkblue"))
+```
+
+---
+
+### Norte
+
+```{r echo=FALSE}
+
+  ggplot(Secretarios_de_saude_Norte, aes(x = duracao_mandato, fill = Gênero)) +
+   geom_histogram(binwidth = 1, position = "dodge", color = "black") +
+   scale_x_continuous(breaks = 1:7)+
+   scale_fill_manual(values = c("hotpink", "orange")) +
+   scale_y_continuous(breaks = seq(1, max(table(Secretarios_de_saude_Norte$duracao_mandato)), by = 1)) +
+   labs(title = "Distribuição da Duração dos Mandatos por Gênero - Norte",
+        x = "Duração do Mandato (anos)",
+        y = "Frequência (Secretários)")+
+   theme(title = element_text(color = "darkblue"))
+```
+
+
+---
+
+### Sudeste
+
+
+```{r echo=FALSE}
+ggplot(Secretarios_de_saude_Sudeste, aes(x = duracao_mandato, fill = Gênero)) +
+   geom_histogram(binwidth = 1, position = "dodge", color = "black") +
+   scale_x_continuous(breaks = 1:7)+
+   scale_fill_manual(values = c("orange"))+
+   scale_y_continuous(breaks = seq(1, max(table(Secretarios_de_saude_Sudeste$duracao_mandato)), by = 1)) +
+   labs(title = "Distribuição da Duração dos Mandatos por Gênero - Sudeste",
+        x = "Duração do Mandato (anos)",
+        y = "Frequência (Secretários)")+
+   theme(title = element_text(color = "darkblue"))
+```
+
+---
+
+### Sul
+
+```{r echo=FALSE}
+ggplot(Secretarios_de_saude_Sul, aes(x = duracao_mandato, fill = Gênero)) +
+   geom_histogram(binwidth = 1, position = "dodge", color = "black") +
+   scale_x_continuous(breaks = 1:7)+
+   scale_fill_manual(values = c("hotpink", "orange")) +
+  scale_y_continuous(breaks = seq(1, max(table(Secretarios_de_saude_Sul$duracao_mandato)), by = 1)) +
+   labs(title = "Distribuição da Duração dos Mandatos por Gênero - Sul",
+        x = "Duração do Mandato (anos)",
+        y = "Frequência (Secretários)")+
+   theme(title = element_text(color = "darkblue"))
+
+```
+
+--- 
+
+Aqui, os resultados demonstram a diferença entre a duração de mandato entre homens e mulheres. Fica evidente a ausência de equidade ao gênero que assume a pasta, e que mulheres permanecem menos no cargo. No caso da região sudeste demonstram um problema ainda maior, da ausência de mulheres no cargo durante os dez anos analisados.  
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+prepare_data <- function(df, nome_regiao) {df %>% 
+mutate( Mandato_Inicio = 
+as.numeric(Mandato_Inicio), Mandato_Final = as.numeric(Mandato_Final), 
+duracao_mandato = (Mandato_Final - Mandato_Inicio) + 1 ) %>% 
+select(Gênero, duracao_mandato, PARTIDO) %>% mutate(nome_regiao)}
+
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+secretarios_combinados <- bind_rows(
+  prepare_data(Secretarios_de_saude_CO, "Centro-Oeste"),
+  prepare_data(Secretarios_de_saude_Norte, "Norte"),
+  prepare_data(Secretarios_de_saude_Nordeste, "Nordeste"),
+  prepare_data(Secretarios_de_saude_Sudeste, "Sudeste"),
+  prepare_data(Secretarios_de_saude_Sul,"Sul"))
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+
+secretarios_combinados <- na.omit(secretarios_combinados)
+```
+
+```{r include=FALSE}
+print(secretarios_combinados)
+```
+
+
+
+### Variável de controle 
+
+Escolhemos aqui a variável de controle de ideologia dos governadores, isso porque já existe na teoria discussões de que exista relação entre a indicação de secretarios de saúde e a ideologia partidária dos governadores. 
+
+```{r include=FALSE}
+ secretarios_combinados <- secretarios_combinados %>%
+  mutate(ideologia = case_when(
+    PARTIDO %in% c("DEM", "PMDB", "PP", "PSC", "PSD", "PSDB", "SD", "PFL") ~ "Direita",
+    PARTIDO %in% c("PCdoB", "PDT", "PSB", "PT", "PPS", "PROS") ~ "Esquerda"))
+
+print(secretarios_combinados)
+```
+
+## Modelo estatístico 
+
+---
+ 
+O modelo que usamos aqui foi a regressão linear, pois esta é utilizada para verificar se existe significância estatística entre duas variáveis. 
+Para que exista relação então entre os fatores, é necessário que o p valor seja menor que 0.05, isso porque o p valor representa a probabilidade da variável não ser significativa. 
+
+## Regressão Linear 
+
+Ao gerarmos a regressão, utilizamos então duas variáveis explicativas, o gênero e a duração do mandato 
+
+```{r echo=FALSE}
+modelo_lm <- lm(duracao_mandato ~ Gênero + ideologia, data = secretarios_combinados)
+
+summary(modelo_lm)
+
+```
+
+Desse modo, demostramos que, diante do resultado da regressão os dados não são siginificantes estatisitcamente para explicar nossa hipótese da influencia de gênero na duração dos mandatos nas secretarias de estaduais de saúde. Isso é evidenciado através do resultado gerado pelo código, que indica 0.878 do p valor para gênero e 0.456 para ideologia partidária.  
+
+# Resultados 
+
+```{r echo=FALSE}
+par(mfrow=c(2,2))
+plot(modelo_lm)
+par(mfrow=c(1,1))
+```
+
+Além disso, os gráficos da análise de pressupostos, demonstram primeiro que, há linearidade mas não a homocedasticidade nos dados. Verificamos também que a distribuição não é normal. Além disso, que há pontos de alavancagem e que na nossa amostra existem outliers. 
+
+# Conclusão 
+
+A representatividade é um fator extremamente importante para que cada vez mais mulheres alcancem posições de destaque na sociedade. Ao longo dos anos esse tem sido o tema não só de debates de movimentos feministas, mas também da discussão da burocracia e da participação feminina em ambientes de trabalho.
+Autores abordam essas barreiras a partir de discussões acerca das representações sociais em ambientes corporativos e como as socializações ali presentes podem moldar e impedir a oportunidade de mudanças organizacionais na promoção da representação. É notório também a existência de barreiras impostas no ambiente político, institucional e social, que podem, conjuntamente, se tornar obstáculos para a equidade de gênero no ambiente de trabalho e na sociedade.
+Dessa forma, verificamos aqui, na presente investigação, que diversos são os desafios postos diante de mulheres para que as mesmas alcancem lugares de liderança no universo profissional, e o termo “teto de vidro” ilustra bem essas dificuldades. O gênero feminino é o que mais dedica tempo a atividades domésticas, são também as que mais se formam nas universidades, mas mesmo assim, elas não recebem o mesmo salário que o sexo oposto.
+Mulheres também são maioria em setores de cuidado, como saúde e educação, mas as mesmas não ocupam lugares de chefia nesse campo. Ademais, as mulheres também são maioria na sociedade brasileira, mas mesmo assim são sub-representadas em cargos de alto escalão burocrático e na política.
+Contudo, um pouco diferente do que se era esperado e conforme o que foi apresentado, nossos dados demonstraram que não existe relação entre as variáveis de análise, o gênero e a duração de mandato. Apesar de inserimos uma variável de idelogia partidária do governador como controle, e apesar dos dados claramente indicarem que a duração de mandato das mulheres são menores, nós não obtivemos significância estatística para a correlação. Isso pode expressar que nossa hipótese é rasa ou mesmo que existe a necessidade de indicarmos outras variáveis para que o teste seja mais robusto. Como teorias citadas anteriormente, pode-se testar mais específicamente a relação próxima com o partido de coalização do governador como uma variável explicativa, além de variáveis como fraude durante o mandato, entre outros.  
+
+
+
+# Referências 
+
+ABRUCIO, F. L.; SAMUELS, D.. A nova política dos governadores. Lua Nova: Revista de Cultura e Política, n. 40-41, p. 137–166, ago. 1997. 
+
+AMORIM NETO, O. The presidential calculus: executive policy making and cabinet formation in the Americas. Comparative Political Studies, v. 39, n. 4, p. 415-440, 2006.
+
+BATISTA, M.; Lopez, F. Ministerial typology and political appointments: where and how do presidents politicize the bureaucracy? Brazilian Political Science Review, v. 15, n. 1, 2021.
+
+BORGES, A.; Coêlho, D. B. O preenchimento de cargos na burocracia federal no presidencialismo de coalizão brasileiro: análise comparada de dois ministérios, Ciência e Tecnologia e Integração Nacional. In: Lopez, F. (Org.). Cargos de confiança no presidencialismo de coalizão brasileiro. Brasília: Ipea, 2015. p. 71-105.
+
+DE MORAIS, Tereza Cristina Cordeiro; PACHECO, Veruska Albuquerque; DO CARMO, Marina Maia. Desigualdade de gênero no setor público: Estudo de caso no Conselho Nacional do Ministério Público. Negócios em Projeção, v. 10, n. 2, p. 44-56, 2019.
+
+EVANGELISTA, Olinda. Apontamentos para o trabalho com documentos de política educacional. A pesquisa em trabalho, educação e políticas educacionais, v. 1, p. 52-71, 2012.
+
+GOMES, S.; LACERDA, A. D. F. DE .; SILVA, A. L. N. DA .. Critérios técnicos, políticos e dinâmica regional na nomeação de secretários estaduais: um estudo de caso do Rio Grande do Norte. Revista de Sociologia e Política, v. 28, n. 76, p. e005, 2020. 
+
+IBGE – INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA . Censo Brasileiro de 2022. Rio de Janeiro: IBGE, 2022.
+
+LOPEZ, F.; PRAÇA, S. Critérios e lógicas de nomeação para o alto escalão da burocracia federal brasileira. In: LOPEZ, F. (Org.). Cargos de confiança no presidencialismo de coalizão brasileiro. Brasília: Ipea, 2015. p. 107-138.
+
+PEREIRA, C. et al. A nomeação de secretários-executivos e o monitoramento da coalizão no presidencialismo brasileiro. In: Lopez, F. (Org.). Cargos de confiança no presidencialismo de coalizão brasileiro. Brasília: Ipea, 2015. p. 139-164.
+
+REIS , L. G.; De Paiva, S. M. Iniquidade de gênero e atenção à saúde no Brasil: em busca de equidade, diversidade e liderança. Revista de APS, v. 26, 2023.
+
+VAZ, Daniela Verzola. Segregação hierárquica de gênero no setor público brasileiro. 2010.
+
+VAZ, Daniela Verzola. O teto de vidro nas organizações públicas: evidências para o Brasil. Economia e Sociedade, v. 22, p. 765-790, 2013.
